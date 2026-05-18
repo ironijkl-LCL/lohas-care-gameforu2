@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>賽博通勝．時空茶餐廳 (萬物演變終極修正版)</title>
+    <style>
+        /* 核心賽博通勝配色與毛玻璃鎖定 */
+        :root {
+            --cyber-red: #FF0033;
+            --cyber-black: #0D0D0D;
+            --neon-green: #39FF14;
+            --neon-blue: #00F0FF;
+            --neon-yellow: #FFEA00;
+            --text-white: #FFFFFF;
+            --transparent-paper: rgba(26, 18, 18, 0.93);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "MingLiU", "PMingLiU", "Microsoft JhengHei", serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: #050508;
+            background-image: 
+                linear-gradient(rgba(255, 0, 51, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+            background-size: 30px 30px;
+            color: #E0E0E0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            min-height: 100vh;
+        }
+
+        /* 結構封鎖區域：主面板外框 */
+        #cyber-almanac {
+            background-color: var(--transparent-paper);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 4px solid var(--cyber-red);
+            outline: 1px solid var(--cyber-red);
+            outline-offset: -8px;
+            box-shadow: 0 0 30px rgba(255, 0, 51, 0.4);
+            width: 100%;
+            max-width: 750px;
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* 結構封鎖區域：Header 佈局與內容 */
+        header {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #almanac-bar {
+            width: 100%;
+            text-align: center;
+            border-bottom: 2px dashed var(--cyber-red);
+            padding-bottom: 10px;
+        }
+
+        /* 填充實用實時資訊的網格排版（完全鎖定在原本的 .cyber-time 容器內） */
+        .cyber-time {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--cyber-red);
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px var(--cyber-red);
+            padding: 0 5px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .cyber-time .info-block {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .cyber-time .live-date {
+            color: var(--text-white);
+        }
+
+        .cyber-time .live-weather {
+            color: var(--neon-blue);
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        h1 {
+            color: var(--text-white);
+            font-size: 30px;
+            font-weight: 900;
+            margin-top: 8px;
+            letter-spacing: 2px;
+        }
+
+        #level-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 12px;
+            width: 100%;
+        }
+
+        .level-btn {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: var(--text-white);
+            border: 2px solid var(--cyber-red);
+            padding: 8px 18px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .level-btn.active {
+            background-color: var(--cyber-red);
+            color: #000000;
+            box-shadow: 0 0 10px var(--cyber-red);
+        }
+
+        /* 結構封鎖區域：Main 內容與佈局 */
+        main {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .neon-status-box {
+            display: flex;
+            border: 2px solid var(--cyber-red);
+            width: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+        .neon-tag {
+            background-color: var(--cyber-red);
+            color: #000000;
+            font-size: 24px;
+            font-weight: 900;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .neon-instruction {
+            font-size: 20px;
+            font-weight: bold;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            color: #FF5577;
+            line-height: 1.4;
+        }
+
+        #quantum-ticket {
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            background-color: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            width: 100%;
+            text-align: center;
+        }
+        #order-content {
+            font-size: 26px;
+            font-weight: bold;
+            color: var(--text-white);
+            letter-spacing: 2px;
+            line-height: 1.4;
+        }
+
+        #matrix-counter {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            min-height: 200px;
+            border: 2px solid var(--cyber-red);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px 10px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .matrix-slot {
+            width: 150px;
+            height: 150px;
+            border: 3px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.02);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .slot-title {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            position: absolute;
+            top: -25px;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+        }
+
+        .matrix-slot.waiting-for-click {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px var(--neon-blue);
+            animation: pulse-blue 1s infinite alternate;
+        }
+
+        .matrix-slot.drag-over {
+            border-color: var(--neon-blue);
+            background-color: rgba(0, 240, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .emoji-display {
+            font-size: 50px;
+            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+            display: inline-block;
+        }
+
+        .smash-effect { animation: physics-smash 0.15s ease-out; }
+        @keyframes physics-smash {
+            0% { transform: scale(1, 1); }
+            50% { transform: scale(1.3, 0.6); }
+            100% { transform: scale(1, 1); }
+        }
+
+        .melt-effect { animation: physics-melt 0.15s ease-out; }
+        @keyframes physics-melt {
+            0% { transform: scale(1); filter: drop-shadow(0 0 0 transparent); }
+            50% { transform: scale(1.2); filter: drop-shadow(0 0 15px var(--neon-yellow)); }
+            100% { transform: scale(1); }
+        }
+
+        .click-prompt {
+            position: absolute;
+            bottom: -24px;
+            font-size: 13px;
+            color: var(--neon-blue);
+            font-weight: bold;
+            animation: blink 1s infinite;
+            display: none;
+            width: 160%;
+            text-align: center;
+        }
+
+        .section-label {
+            font-size: 18px;
+            font-weight: bold;
+            align-self: flex-start;
+            color: var(--text-white);
+            border-left: 4px solid var(--cyber-red);
+            padding-left: 8px;
+            margin-top: 5px;
+        }
+
+        .item-grid {
+            display: flex;
+            justify-content: flex-start;
+            gap: 12px;
+            width: 100%;
+            flex-wrap: wrap;
+            max-height: 240px;
+            overflow-y: auto;
+            padding: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .item-grid::-webkit-scrollbar { width: 6px; }
+        .item-grid::-webkit-scrollbar-thumb { background: var(--cyber-red); border-radius: 3px; }
+
+        .cyber-card {
+            background-color: rgba(255, 255, 255, 0.06);
+            border: 2px solid rgba(255, 0, 51, 0.4);
+            width: 105px;
+            height: 105px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s;
+        }
+        
+        .cyber-card.selected-active {
+            border-color: var(--neon-blue) !important;
+            box-shadow: 0 0 15px var(--neon-blue) !important;
+            background: rgba(0, 240, 255, 0.1) !important;
+            transform: scale(1.05);
+        }
+
+        .cyber-card:hover { border-color: var(--neon-blue); background: rgba(0, 240, 255, 0.05); }
+        .cyber-card.dragging { opacity: 0.1; }
+        .food-emoji { font-size: 36px; pointer-events: none; }
+        .food-name { font-size: 15px; font-weight: bold; color: var(--text-white); pointer-events: none; text-align: center; margin-top: 2px;}
+
+        /* 結構封鎖區域：Footer / 控制互動區 */
+        footer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #action-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            min-height: 120px;
+        }
+
+        #shout-btn {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--cyber-red);
+            border: 2px solid var(--cyber-red);
+            padding: 12px 30px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(255, 0, 51, 0.5);
+            display: none;
+        }
+        #shout-btn.listening {
+            color: var(--neon-blue);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 25px var(--neon-blue);
+        }
+
+        #next-order-btn {
+            background-color: var(--cyber-red);
+            color: #000000;
+            border: 2px solid #FFFFFF;
+            padding: 15px 40px;
+            font-size: 24px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 0 20px var(--cyber-red);
+            display: none; 
+            margin-top: 15px;
+            letter-spacing: 4px;
+            animation: pulse-red 1s infinite alternate;
+        }
+
+        #feedback-msg {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        @keyframes pulse-blue { 0% { box-shadow: 0 0 5px var(--neon-blue); } 100% { box-shadow: 0 0 25px var(--neon-blue); } }
+        @keyframes pulse-red { 0% { box-shadow: 0 0 5px var(--cyber-red); transform: scale(1); } 100% { box-shadow: 0 0 25px var(--cyber-red); transform: scale(1.03); } }
+    </style>
+</head>
+<body>
+
+    <div id="cyber-almanac">
+        
+        <header>
+            <div id="almanac-bar">
+                <div class="cyber-time">
+                    <div class="info-block">
+                        <span>▲ 歲次丙午</span>
+                        <span id="live-date-text" class="live-date">2026年05月18日</span>
+                        <span id="live-time-text">13:41:18</span>
+                    </div>
+                    <div class="info-block live-weather">
+                        <span>香港 📍</span>
+                        <span id="live-temp-text">28°C</span>
+                        <span id="live-humidity-text">💧 78%</span>
+                    </div>
+                </div>
+                <h1>懸浮通勝．時空茶餐廳</h1>
+            </div>
+            <div id="level-container">
+                <button id="btn-lvl1" class="level-btn active" onclick="switchGameLevel(1)">Level 1 (1飲+1食)</button>
+                <button id="btn-lvl2" class="level-btn" onclick="switchGameLevel(2)">Level 2 (1飲+2食)</button>
+                <button id="btn-lvl3" class="level-btn" onclick="switchGameLevel(3)">Level 3 (1飲+3食)</button>
+            </div>
+        </header>
+
+        <main>
+            <div class="neon-status-box">
+                <div class="neon-tag" id="status-tag">宜</div>
+                <div id="main-instruction" class="neon-instruction">請先用手指點選下方食材，再放入對應的半透明傳送艙。</div>
+            </div>
+
+            <div id="quantum-ticket">
+                <div id="order-content">加載中...</div>
+            </div>
+
+            <div id="matrix-counter">
+                <div class="matrix-slot" id="slot-drink" data-expected-type="drink" onclick="handleSlotInteraction(this)">
+                    <span class="slot-title">🍹 飲品傳送艙</span>
+                    <span id="txt-drink" class="emoji-display"></span>
+                    <span id="prompt-drink" class="click-prompt">等待材料裝填...</span>
+                </div>
+                <div class="matrix-slot" id="slot-food" data-expected-type="food" onclick="handleSlotInteraction(this)">
+                    <span class="slot-title">⚡ 食品傳送艙一</span>
+                    <span id="txt-food" class="emoji-display"></span>
+                    <span id="prompt-food" class="click-prompt">等待材料裝填...</span>
+                </div>
+                <div class="matrix-slot" id="slot-food2" data-expected-type="food2" onclick="handleSlotInteraction(this)" style="display: none;">
+                    <span class="slot-title">⚡ 食品傳送艙二</span>
+                    <span id="txt-food2" class="emoji-display"></span>
+                    <span id="prompt-food2" class="click-prompt">等待材料裝填...</span>
+                </div>
+                <div class="matrix-slot" id="slot-food3" data-expected-type="food3" onclick="handleSlotInteraction(this)" style="display: none;">
+                    <span class="slot-title">⚡ 食品傳送艙三</span>
+                    <span id="txt-food3" class="emoji-display"></span>
+                    <span id="prompt-food3" class="click-prompt">等待材料裝填...</span>
+                </div>
+            </div>
+
+            <div class="section-label">► 水吧組 (11款特製飲品池)</div>
+            <div class="item-grid" id="grid-drinks"></div>
+
+            <div class="section-label">► 廚房組 (11款堂食主食池)</div>
+            <div class="item-grid" id="grid-foods"></div>
+        </main>
+
+        <footer>
+            <div id="action-container">
+                <button id="shout-btn" onclick="startVoiceRecognition()">🎤 聲波傳菜</button>
+                <div id="feedback-msg"></div>
+                <button id="next-order-btn" onclick="generateNewOrder()">🔀 萬事大吉．下一單</button>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // 全局因果數據矩陣
+        const evolutionMatrix = {
+            "紅豆冰": {
+                animType: "smash",
+                stages: ["🫘", "🥛", "🍧"],
+                prompts: ["宜：敲碎大冰塊 (1/3) 🧊", "宜：注入絲滑淡奶 (2/3) 🍼", "✓ 紅豆冰完美調和 (3/3) 🎉"]
+            },
+            "凍檸茶": {
+                animType: "smash",
+                stages: ["🍋", "🥤", "🍹"],
+                prompts: ["宜：落手戳扁檸檬 (1/3) 💥", "宜：令茶色充分交融 (2/3) 🥢", "✓ 凍檸茶調製圓滿 (3/3) 🎉"]
+            },
+            "絲襪奶茶": {
+                animType: "melt",
+                stages: ["🍂", "🫖", "☕"],
+                prompts: ["宜：高空拉茶撞茶 (1/3) 🪢", "宜：傾入黑白淡奶 (2/3) 🥛", "✓ 絲襪奶茶沖製圓滿 (3/3) 🎉"]
+            },
+            "鴛鴦": {
+                animType: "smash",
+                stages: ["☕", "🧋", "☯️"],
+                prompts: ["宜：注入濃郁咖啡 (1/3) 🤎", "宜：混和黃金比例奶茶 (2/3) ➕", "✓ 鴛鴦咖啡調和圓滿 (3/3) 🎉"]
+            },
+            "滾水蛋": {
+                animType: "melt",
+                stages: ["🥚", "🧪", "🥛"],
+                prompts: ["宜：注入滾燙開水 (1/3) 🔥", "宜：快速攪勻生雞蛋 (2/3) 🌀", "✓ 滾水蛋熟化圓滿 (3/3) 🎉"]
+            },
+            "阿華田": {
+                animType: "smash",
+                stages: ["🟤", "🥛", "🍫"],
+                prompts: ["宜：撒入麥芽可可粉 (1/3) 🪵", "宜：高速攪拌溶解 (2/3) 🌪️", "✓ 阿華田濃郁調成 (3/3) 🎉"]
+            },
+            "兒童鴛鴦": {
+                animType: "melt",
+                stages: ["🌾", "🍼", "🥣"],
+                prompts: ["宜：調配美祿底粉 (1/3) 🌾", "宜：混和好立克麥香 (2/3) 🍼", "✓ 兒童鴛鴦調配圓滿 (3/3) 🎉"]
+            },
+            "鹹檸七": {
+                animType: "smash",
+                stages: ["🧂", "🍋", "🥤"],
+                prompts: ["宜：放入陳年鹹檸檬 (1/3) 🫙", "宜：猛力戳爆鹹檸殼 (2/3) 🔨", "✓ 鹹檸七注入倒滿 (3/3) 🎉"]
+            },
+            "檸樂煲薑": {
+                animType: "melt",
+                stages: ["🫚", "🧪", "🔥"],
+                prompts: ["宜：拍碎老薑下鍋 (1/3) 🫚", "宜：倒入黑可樂熬煮 (2/3) 🥤", "✓ 檸樂煲薑熱氣滾燙 (3/3) 🎉"]
+            },
+            "菠蘿冰": {
+                animType: "smash",
+                stages: ["🍍", "🧊", "🍹"],
+                prompts: ["宜：切碎新鮮菠蘿肉 (1/3) 🔪", "宜：加入糖水與碎冰 (2/3) 🍨", "✓ 菠蘿冰清涼盛好 (3/3) 🎉"]
+            },
+            "黑牛": {
+                animType: "melt",
+                stages: ["🥤", "🍨", "🐂"],
+                prompts: ["宜：倒滿冰鎮可樂 (1/3) 🥤", "宜：挖入大隻朱古力雪糕球 (2/3) 🍨", "✓ 黑牛雪糕噴發完成 (3/3) 🎉"]
+            },
+            "乾炒牛河": {
+                animType: "smash",
+                stages: ["🥩", "🥢", "🍝"],
+                prompts: ["宜：猛火爆炒鮮牛肉 (1/3) 🔥", "宜：落老抽鑊氣拋河粉 (2/3) 💨", "✓ 乾炒牛河色澤金黃 (3/3) 🎉"]
+            },
+            "西多士": {
+                animType: "melt",
+                stages: ["🧈", "🥞", "🍞"],
+                prompts: ["宜：放上厚切牛油塊 (1/3) 🧈", "宜：牛油融化淋上糖漿 (2/3) ✨", "✓ 西多士完全融解滲透 (3/3) 🎉"]
+            },
+            "菠蘿油": {
+                animType: "melt",
+                stages: ["🥯", "🔪", "🍔"],
+                prompts: ["宜：烘熱酥皮菠蘿包 (1/3) 🔥", "宜：橫切厚片冰鎮牛油 (2/3) 🔪", "✓ 冰火交融菠蘿油夾好 (3/3) 🎉"]
+            },
+            "沙爹牛肉麵": {
+                animType: "melt",
+                stages: ["🥩", "🍜", "🍲"],
+                prompts: ["宜：大火熬煮秘製沙爹醬 (1/3) 🪵", "宜：鋪上熱辣厚切牛肉 (2/3) 🥩", "✓ 沙爹牛肉麵濃郁起鍋 (3/3) 🎉"]
+            },
+            "餐蛋麵": {
+                animType: "smash",
+                stages: ["🍳", "🐷", "🍜"],
+                prompts: ["宜：煎香雙太陽蛋 (1/3) 🍳", "宜：切厚片午餐肉微焦 (2/3) 🥩", "✓ 餐蛋麵出餐大吉 (3/3) 🎉"]
+            },
+            "焗豬扒飯": {
+                animType: "melt",
+                stages: ["🍛", "🍅", "🧀"],
+                prompts: ["宜：鋪上厚炸鮮豬扒 (1/3) 🐷", "宜：澆上鮮茄醬與滿滿起司 (2/3) 🍅", "✓ 焗豬扒飯高溫熔化拉絲 (3/3) 🎉"]
+            },
+            "蛋撻": {
+                animType: "melt",
+                stages: ["🥮", "🥚", "🥧"],
+                prompts: ["宜：捏製千層金黃酥皮 (1/3) 🥐", "宜：注入絲滑新鮮蛋液 (2/3) 🥚", "✓ 蛋撻高溫烘烤出爐 (3/3) 🎉"]
+            },
+            "火腿通粉": {
+                animType: "melt",
+                stages: ["🥣", "🐷", "🍲"],
+                prompts: ["宜：熬煮鮮甜忌廉上湯 (1/3) 🥣", "宜：切條上等火腿絲 (2/3) 🥩", "✓ 火腿通粉熱湯出碟 (3/3) 🎉"]
+            },
+            "瑞士雞翼": {
+                animType: "melt",
+                stages: ["🍗", "🫙", "🤎"],
+                prompts: ["宜：調配特濃瑞士甜豉油 (1/3) 🤎", "宜：慢火煨煮鮮雞翼 (2/3) ⏱️", "✓ 瑞士雞翼上色入味 (3/3) 🎉"]
+            },
+            "公司三文治": {
+                animType: "smash",
+                stages: ["🥪", "🍳", "📐"],
+                prompts: ["宜：烘熱吐司疊加火腿生菜 (1/3) 🥬", "宜：插入竹籤固定結構 (2/3) 📍", "✓ 公司三文治沿對角切開 (3/3) 🎉"]
+            },
+            "炸薯條": {
+                animType: "smash",
+                stages: ["🥔", "🍟", "🥫"],
+                prompts: ["宜：將馬鈴薯切條下鍋 (1/3) 🔪", "宜：高溫金黃滾油炸透 (2/3) ⚡", "✓ 炸薯條瀝乾撒鹽上碟 (3/3) 🎉"]
+            }
+        };
+
+        let currentLevel = 1; 
+        let targetConfig = { drink: "", food: "", food2: "", food3: "" };
+        let playerSetup = { drink: false, food: false, food2: false, food3: false };
+        let drinkClicks = 0;
+        let foodClicks = 0;
+        let food2Clicks = 0;
+        let food3Clicks = 0;
+        const requiredClicks = 3;
+
+        let clickSelectedCard = null; 
+        let draggedNode = null;
+        let isFirstOrderLoad = true;
+
+        // 【新增內容填充】：時鐘與動態實用數據更新引擎
+        function startLiveHeaderUpdates() {
+            function updateClock() {
+                const now = new Date();
+                
+                // 動態取得年月日資訊
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const date = String(now.getDate()).padStart(2, '0');
+                document.getElementById('live-date-text').textContent = `${year}年${month}月${date}日`;
+                
+                // 動態取得實用電子時鐘資訊
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                document.getElementById('live-time-text').textContent = `${hours}:${minutes}:${seconds}`;
+            }
+            
+            // 每秒鐘即時更新一次時鐘數據
+            updateClock();
+            setInterval(updateClock, 1000);
+
+            // 賽博未來模擬：隨時間產生輕微波動的實用高對比天氣指數（迎合無障礙新鮮感）
+            setInterval(() => {
+                const baseTemp = 28;
+                const randomFluc = (Math.random() * 2 - 1).toFixed(1);
+                const currentTemp = (baseTemp + parseFloat(randomFluc)).toFixed(1);
+                document.getElementById('live-temp-text').textContent = `${currentTemp}°C`;
+            }, 10000);
+        }
+
+        // 安全語音導引
+        function playVoiceGuide(text) {
+            if (isFirstOrderLoad) return;
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'zh-HK';
+                utterance.rate = 0.95; 
+                utterance.pitch = 1.0;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // 切換難度等級
+        styleLvlBtn = function(level) {
+            document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-lvl${level}`).classList.add('active');
+        }
+
+        switchGameLevel = function(level) {
+            currentLevel = level;
+            isFirstOrderLoad = false; 
+            
+            styleLvlBtn(level);
+
+            if (level === 1) {
+                document.getElementById('slot-food2').style.display = "none";
+                document.getElementById('slot-food3').style.display = "none";
+                document.getElementById('slot-food').querySelector('.slot-title').textContent = "⚡ 食品傳送艙";
+            } else if (level === 2) {
+                document.getElementById('slot-food2').style.display = "flex";
+                document.getElementById('slot-food3').style.display = "none";
+                document.getElementById('slot-food').querySelector('.slot-title').textContent = "⚡ 食品艙一";
+            } else if (level === 3) {
+                document.getElementById('slot-food2').style.display = "flex";
+                document.getElementById('slot-food3').style.display = "flex";
+                document.getElementById('slot-food').querySelector('.slot-title').textContent = "⚡ 食品艙一";
+            }
+
+            playVoiceGuide(`切換到難度等級 ${level}。`);
+            generateNewOrder();
+        }
+
+        // 建立食材庫
+        function buildGridUI() {
+            const drinkGrid = document.getElementById('grid-drinks');
+            const foodGrid = document.getElementById('grid-foods');
+            
+            drinkGrid.innerHTML = '';
+            foodGrid.innerHTML = '';
+            Object.keys(evolutionMatrix).forEach(name => {
+                const item = evolutionMatrix[name];
+                const card = document.createElement('div');
+                card.className = 'cyber-card';
+                card.setAttribute('draggable', 'true');
+                card.setAttribute('data-name', name);
+                
+                const initialEmoji = item.stages[2]; 
+                card.setAttribute('data-emoji', item.stages[0]);
+
+                const isDrink = ["紅豆冰","凍檸茶","絲襪奶茶","鴛鴦","滾水蛋","阿華田","兒童鴛鴦","鹹檸七","檸樂煲薑","菠蘿冰","黑牛"].includes(name);
+                card.setAttribute('data-type', isDrink ? 'drink' : 'food');
+                card.setAttribute('onclick', 'handleCardClick(this)');
+
+                card.innerHTML = `<div class="food-emoji">${initialEmoji}</div><div class="food-name">${name}</div>`;
+                
+                if (isDrink) drinkGrid.appendChild(card);
+                else foodGrid.appendChild(card);
+            });
+            bindDragEvents();
+        }
+
+        // 隨機落單控制核心
+        function generateNewOrder() {
+            const drinkNames = ["紅豆冰","凍檸茶","絲襪奶茶","鴛鴦","滾水蛋","阿華田","兒童鴛鴦","鹹檸七","檸樂煲薑","菠蘿冰","黑牛"];
+            const foodNames = ["乾炒牛河","西多士","菠蘿油","沙爹牛肉麵","餐蛋麵","焗豬扒飯","蛋撻","火腿通粉","瑞士雞翼","公司三文治","炸薯條"];
+
+            targetConfig.drink = drinkNames[Math.floor(Math.random() * drinkNames.length)];
+            targetConfig.food = foodNames[Math.floor(Math.random() * foodNames.length)];
+            targetConfig.food2 = "";
+            targetConfig.food3 = "";
+
+            if (currentLevel >= 2) {
+                let f2 = foodNames[Math.floor(Math.random() * foodNames.length)];
+                while (f2 === targetConfig.food) { f2 = foodNames[Math.floor(Math.random() * foodNames.length)]; }
+                targetConfig.food2 = f2;
+            }
+            if (currentLevel === 3) {
+                let f3 = foodNames[Math.floor(Math.random() * foodNames.length)];
+                while (f3 === targetConfig.food || f3 === targetConfig.food2) { f3 = foodNames[Math.floor(Math.random() * foodNames.length)]; }
+                targetConfig.food3 = f3;
+            }
+
+            const dEmoji = evolutionMatrix[targetConfig.drink].stages[2];
+            const f1Emoji = evolutionMatrix[targetConfig.food].stages[2];
+            let orderText = `${targetConfig.drink} ${dEmoji} ＋ ${targetConfig.food} ${f1Emoji}`;
+            let voiceText = `新單黎喇：唔該一柸${targetConfig.drink}，同埋一個${targetConfig.food}`;
+
+            if (currentLevel >= 2) {
+                const f2Emoji = evolutionMatrix[targetConfig.food2].stages[2];
+                orderText += ` ＋ ${targetConfig.food2} ${f2Emoji}`;
+                voiceText += `，再加一個${targetConfig.food2}`;
+            }
+            if (currentLevel === 3) {
+                const f3Emoji = evolutionMatrix[targetConfig.food3].stages[2];
+                orderText += ` ＋ ${targetConfig.food3} ${f3Emoji}`;
+                voiceText += `，仲有一個${targetConfig.food3}`;
+            }
+            voiceText += "。";
+
+            document.getElementById('order-content').textContent = orderText;
+
+            playerSetup.drink = false;
+            playerSetup.food = false;
+            playerSetup.food2 = currentLevel >= 2 ? false : true;
+            playerSetup.food3 = currentLevel === 3 ? false : true;
+            
+            drinkClicks = 0;
+            foodClicks = 0;
+            food2Clicks = 0;
+            food3Clicks = 0;
+            clickSelectedCard = null;
+            draggedNode = null;
+
+            document.querySelectorAll('.cyber-card').forEach(card => {
+                card.style.visibility = 'visible';
+                card.classList.remove('selected-active');
+            });
+
+            const slots = document.querySelectorAll('.matrix-slot');
+            slots.forEach(slot => {
+                slot.classList.remove('waiting-for-click');
+                slot.style.borderColor = "rgba(255, 255, 255, 0.3)";
+                slot.style.boxShadow = "none";
+                slot.style.backgroundColor = "rgba(255, 255, 255, 0.02)";
+                const textDisp = slot.querySelector('.emoji-display');
+                if (textDisp) {
+                    textDisp.textContent = "";
+                    textDisp.style.filter = "none";
+                }
+            });
+
+            document.getElementById('prompt-drink').style.display = "block";
+            document.getElementById('prompt-drink').style.color = "rgba(255, 255, 255, 0.4)";
+            document.getElementById('prompt-drink').textContent = "等待材料裝填...";
+            
+            document.getElementById('prompt-food').style.display = "block";
+            document.getElementById('prompt-food').style.color = "rgba(255, 255, 255, 0.4)";
+            document.getElementById('prompt-food').textContent = "等待材料裝填...";
+
+            if (currentLevel >= 2) {
+                document.getElementById('prompt-food2').style.display = "block";
+                document.getElementById('prompt-food2').style.color = "rgba(255, 255, 255, 0.4)";
+                document.getElementById('prompt-food2').textContent = "等待材料裝填...";
+            }
+            if (currentLevel === 3) {
+                document.getElementById('prompt-food3').style.display = "block";
+                document.getElementById('prompt-food3').style.color = "rgba(255, 255, 255, 0.4)";
+                document.getElementById('prompt-food3').textContent = "等待材料裝填...";
+            }
+
+            document.getElementById('shout-btn').style.display = "none";
+            document.getElementById('next-order-btn').style.display = "none";
+            document.getElementById('feedback-msg').textContent = "";
+            document.getElementById('status-tag').textContent = "宜";
+            document.getElementById('status-tag').style.color = "#000";
+            document.getElementById('status-tag').style.backgroundColor = "var(--cyber-red)";
+            document.getElementById('main-instruction').textContent = "解讀量子吉時單，將正確茶點組合「點擊」或「拖放」入傳送艙。";
+            
+            const shortDrink = targetConfig.drink.replace("凍", "").replace("熱", "");
+            const shortFood = targetConfig.food.replace("乾炒", "").replace("公司", "").substring(0,2);
+            let targetPhrase = `${shortDrink}${shortFood}`;
+            if (currentLevel >= 2) targetPhrase += targetConfig.food2.substring(0,2);
+            if (currentLevel === 3) targetPhrase += targetConfig.food3.substring(0,2);
+
+            const shoutBtn = document.getElementById('shout-btn');
+            shoutBtn.textContent = `🎤 聲波傳菜：【 ${targetPhrase} 】`;
+            shoutBtn.setAttribute('data-target-phrase', targetPhrase);
+
+            playVoiceGuide(voiceText);
+        }
+
+        // 無障礙手指點擊
+        function handleCardClick(cardElement) {
+            if (cardElement.style.visibility === 'hidden') return;
+            isFirstOrderLoad = false; 
+
+            document.querySelectorAll('.cyber-card').forEach(c => c.classList.remove('selected-active'));
+            document.querySelectorAll('.matrix-slot').forEach(s => s.classList.remove('waiting-for-click'));
+
+            clickSelectedCard = cardElement;
+            cardElement.classList.add('selected-active');
+
+            const type = cardElement.getAttribute('data-type');
+            const name = cardElement.getAttribute('data-name');
+            
+            if (type === 'drink' && !playerSetup.drink) {
+                document.getElementById('slot-drink').classList.add('waiting-for-click');
+                document.getElementById('main-instruction').textContent = `已選中「${name}」，請點擊飲品傳送艙放入！`;
+                playVoiceGuide(`選中左${name}，請點擊飲品艙放好佢。`);
+            } else if (type === 'food') {
+                if (name === targetConfig.food && !playerSetup.food) {
+                    document.getElementById('slot-food').classList.add('waiting-for-click');
+                } else if (currentLevel >= 2 && name === targetConfig.food2 && !playerSetup.food2) {
+                    document.getElementById('slot-food2').classList.add('waiting-for-click');
+                } else if (currentLevel === 3 && name === targetConfig.food3 && !playerSetup.food3) {
+                    document.getElementById('slot-food3').classList.add('waiting-for-click');
+                }
+                document.getElementById('main-instruction').textContent = `已選中「${name}」，請點擊閃爍藍光的食品艙放入！`;
+                playVoiceGuide(`選中左${name}，請點擊發光嘅食品艙。`);
+            }
+        }
+
+        function handleSlotInteraction(slotElement) {
+            const expectedType = slotElement.getAttribute('data-expected-type');
+            if (clickSelectedCard) {
+                slotElement.classList.remove('waiting-for-click');
+                executePlacement(clickSelectedCard, slotElement);
+                clickSelectedCard.classList.remove('selected-active');
+                clickSelectedCard = null;
+            } else {
+                if (expectedType === 'drink') processDrink();
+                else if (expectedType === 'food') processFood();
+                else if (expectedType === 'food2') processFood2();
+                else if (expectedType === 'food3') processFood3();
+            }
+        }
+
+        function executePlacement(sourceCard, targetSlot) {
+            const name = sourceCard.getAttribute('data-name');
+            const type = sourceCard.getAttribute('data-type');
+            const expectedType = targetSlot.getAttribute('data-expected-type');
+
+            if (type === 'drink' && expectedType !== 'drink') {
+                document.getElementById('feedback-msg').style.color = "var(--cyber-red)";
+                document.getElementById('feedback-msg').textContent = "⚠️ 類型不符：嘢飲要放落飲品傳送艙！";
+                playVoiceGuide("放錯位置喇！嘢飲要擺喺飲品艙。");
+                return;
+            }
+            if (type === 'food' && expectedType === 'drink') {
+                document.getElementById('feedback-msg').style.color = "var(--cyber-red)";
+                document.getElementById('feedback-msg').textContent = "⚠️ 類型不符：嘢食唔可以放飲品艙！";
+                playVoiceGuide("放錯位置喇！嘢食唔可以擺喺飲品艙。");
+                return;
+            }
+
+            let isCorrectTarget = false;
+            if (expectedType === 'drink' && name === targetConfig.drink) isCorrectTarget = true;
+            if (expectedType === 'food' && name === targetConfig.food) isCorrectTarget = true;
+            if (expectedType === 'food2' && name === targetConfig.food2 && currentLevel >= 2) isCorrectTarget = true;
+            if (expectedType === 'food3' && name === targetConfig.food3 && currentLevel === 3) isCorrectTarget = true;
+
+            if (!isCorrectTarget) {
+                document.getElementById('main-instruction').textContent = "⚠️ 不合清單：並非此艙位今日吉時單所求！";
+                playVoiceGuide("睇錯單喇，呢個唔係呢個位要嘅嘢，再搵下看。");
+                return;
+            }
+
+            const itemData = evolutionMatrix[name];
+            const textDisplay = targetSlot.querySelector('.emoji-display');
+            textDisplay.textContent = itemData.stages[0]; 
+            
+            sourceCard.style.visibility = 'hidden'; 
+            document.getElementById('feedback-msg').textContent = "";
+            
+            targetSlot.style.borderColor = "var(--neon-blue)";
+            targetSlot.style.boxShadow = "0 0 15px var(--neon-blue)";
+            
+            const prompt = targetSlot.querySelector('.click-prompt');
+            prompt.style.color = "var(--neon-blue)";
+            prompt.textContent = itemData.prompts[0];
+
+            document.getElementById('status-tag').textContent = "宜";
+            document.getElementById('status-tag').style.color = "#000";
+            document.getElementById('status-tag').style.backgroundColor = "var(--neon-blue)";
+            document.getElementById('main-instruction').textContent = `材料就位！請連續點擊器皿觸發演變！`;
+
+            playVoiceGuide(`材料到位，${itemData.prompts[0].replace(/ \(\d\/\d\).*/, "")}。`);
+        }
+
+        // 點擊物態控制（飲品艙）
+        function processDrink() {
+            const display = document.getElementById('txt-drink');
+            const slot = document.getElementById('slot-drink');
+            if (display.textContent === "" || playerSetup.drink) return;
+
+            drinkClicks++;
+            const itemData = evolutionMatrix[targetConfig.drink];
+            const prompt = document.getElementById('prompt-drink');
+            display.className = 'emoji-display';
+            void display.offsetWidth; 
+            display.classList.add(itemData.animType === 'smash' ? 'smash-effect' : 'melt-effect');
+            
+            if (drinkClicks === 1) {
+                display.textContent = itemData.stages[1];
+                prompt.textContent = itemData.prompts[1];
+                playVoiceGuide(itemData.prompts[1].replace(/ \(\d\/\d\).*/, ""));
+            } else if (drinkClicks >= 2) {
+                playerSetup.drink = true;
+                display.textContent = itemData.stages[2]; 
+                display.style.filter = "drop-shadow(0 0 12px var(--neon-green))";
+                prompt.textContent = itemData.prompts[2];
+                setSlotSuccess(slot, prompt);
+            }
+        }
+
+        // 點擊物態控制（食品艙一）
+        function processFood() {
+            const display = document.getElementById('txt-food');
+            const slot = document.getElementById('slot-food');
+            if (display.textContent === "" || playerSetup.food) return;
+
+            foodClicks++;
+            const itemData = evolutionMatrix[targetConfig.food];
+            const prompt = document.getElementById('prompt-food');
+            display.className = 'emoji-display';
+            void display.offsetWidth; 
+            display.classList.add(itemData.animType === 'smash' ? 'smash-effect' : 'melt-effect');
+            
+            if (foodClicks === 1) {
+                display.textContent = itemData.stages[1];
+                prompt.textContent = itemData.prompts[1];
+                playVoiceGuide(itemData.prompts[1].replace(/ \(\d\/\d\).*/, ""));
+            } else if (foodClicks >= 2) {
+                playerSetup.food = true;
+                display.textContent = itemData.stages[2];
+                display.style.filter = "drop-shadow(0 0 12px var(--neon-green))";
+                prompt.textContent = itemData.prompts[2];
+                setSlotSuccess(slot, prompt);
+            }
+        }
+
+        // 點擊物態控制（食品艙二）
+        function processFood2() {
+            const display = document.getElementById('txt-food2');
+            const slot = document.getElementById('slot-food2');
+            if (!display || display.textContent === "" || playerSetup.food2) return;
+
+            food2Clicks++;
+            const itemData = evolutionMatrix[targetConfig.food2];
+            const prompt = document.getElementById('prompt-food2');
+            display.className = 'emoji-display';
+            void display.offsetWidth; 
+            display.classList.add(itemData.animType === 'smash' ? 'smash-effect' : 'melt-effect');
+            
+            if (food2Clicks === 1) {
+                display.textContent = itemData.stages[1];
+                prompt.textContent = itemData.prompts[1];
+                playVoiceGuide(itemData.prompts[1].replace(/ \(\d\/\d\).*/, ""));
+            } else if (food2Clicks >= 2) {
+                playerSetup.food2 = true;
+                display.textContent = itemData.stages[2];
+                display.style.filter = "drop-shadow(0 0 12px var(--neon-green))";
+                prompt.textContent = itemData.prompts[2];
+                setSlotSuccess(slot, prompt);
+            }
+        }
+
+        // 點擊物態控制（食品艙三）
+        function processFood3() {
+            const display = document.getElementById('txt-food3');
+            const slot = document.getElementById('slot-food3');
+            if (!display || display.textContent === "" || playerSetup.food3) return;
+
+            food3Clicks++;
+            const itemData = evolutionMatrix[targetConfig.food3];
+            const prompt = document.getElementById('prompt-food3');
+            display.className = 'emoji-display';
+            void display.offsetWidth; 
+            display.classList.add(itemData.animType === 'smash' ? 'smash-effect' : 'melt-effect');
+            
+            if (food3Clicks === 1) {
+                display.textContent = itemData.stages[1];
+                prompt.textContent = itemData.prompts[1];
+                playVoiceGuide(itemData.prompts[1].replace(/ \(\d\/\d\).*/, ""));
+            } else if (food3Clicks >= 2) {
+                playerSetup.food3 = true;
+                display.textContent = itemData.stages[2];
+                display.style.filter = "drop-shadow(0 0 12px var(--neon-green))";
+                prompt.textContent = itemData.prompts[2];
+                setSlotSuccess(slot, prompt);
+            }
+        }
+
+        function setSlotSuccess(slot, prompt) {
+            prompt.style.color = "var(--neon-green)";
+            slot.style.borderColor = "var(--neon-green)";
+            slot.style.boxShadow = "0 0 20px var(--neon-green)";
+            slot.style.backgroundColor = "rgba(57, 255, 20, 0.05)";
+            
+            if (playerSetup.drink && playerSetup.food && playerSetup.food2 && playerSetup.food3) {
+                document.getElementById('status-tag').textContent = "吉";
+                document.getElementById('status-tag').style.color = "#FFF";
+                document.getElementById('status-tag').style.backgroundColor = "var(--cyber-red)";
+                document.getElementById('main-instruction').textContent = "百味交融，大吉大利！宜啟用聲波傳菜落單。";
+                document.getElementById('shout-btn').style.display = "block";
+                
+                const targetPhrase = document.getElementById('shout-btn').getAttribute('data-target-phrase');
+                playVoiceGuide(`好精神，全套齊包！請點擊紅色按鈕，向廚房傳菜，大聲讀出：${targetPhrase}。`);
+            } else {
+                document.getElementById('main-instruction').textContent = "調和成功！請完成其餘器皿的物態演變。";
+                playVoiceGuide(`搞掂一樣，快手整埋其他食材喇。`);
+            }
+        }
+
+        // 滑鼠拖放事件綁定
+        function bindDragEvents() {
+            const cardsAll = document.querySelectorAll('.cyber-card');
+            const slotsAll = document.querySelectorAll('.matrix-slot');
+
+            cardsAll.forEach(card => {
+                card.addEventListener('dragstart', (e) => {
+                    draggedNode = card;
+                    card.classList.add('dragging');
+                    e.dataTransfer.setData('text/plain', card.getAttribute('data-name'));
+                });
+                card.addEventListener('dragend', () => {
+                    card.classList.remove('dragging');
+                    draggedNode = null;
+                });
+            });
+            slotsAll.forEach(slot => {
+                slot.addEventListener('dragover', (e) => e.preventDefault());
+                slot.addEventListener('dragenter', (e) => e.preventDefault());
+                slot.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    if (!draggedNode) return;
+                    isFirstOrderLoad = false;
+                    executePlacement(draggedNode, slot);
+                });
+            });
+        }
+
+        // Web Speech API 語音辨識
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition = null;
+
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.lang = 'zh-HK';
+            recognition.continuous = false;
+
+            recognition.onstart = () => {
+                const btn = document.getElementById('shout-btn');
+                btn.classList.add('listening');
+                btn.textContent = "🛑 聲波對頻中...請發聲...";
+                document.getElementById('feedback-msg').textContent = "";
+            };
+
+            recognition.onresult = (event) => {
+                const speechResult = event.results[0][0].transcript;
+                verifyVoiceOutput(speechResult);
+            };
+
+            recognition.onerror = () => {
+                document.getElementById('feedback-msg').style.color = "var(--cyber-red)";
+                document.getElementById('feedback-msg').textContent = "❌ 聲波對頻失敗，請重新點擊按鈕。";
+                playVoiceGuide("聽唔係幾清楚，請再點多次紅色按鈕試一次。");
+                resetVoiceButtonStatus();
+            };
+
+            recognition.onend = () => resetVoiceButtonStatus();
+        }
+
+        function startVoiceRecognition() {
+            if (!recognition) return;
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel(); 
+            recognition.start();
+        }
+
+        function resetVoiceButtonStatus() {
+            const btn = document.getElementById('shout-btn');
+            btn.classList.remove('listening');
+            const targetPhrase = btn.getAttribute('data-target-phrase') || "";
+            btn.textContent = `🎤 聲波傳菜：【 ${targetPhrase} 】`;
+        }
+
+        function verifyVoiceOutput(text) {
+            const msgZone = document.getElementById('feedback-msg');
+            const cleanText = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()？。，！\s]/g, "");
+
+            const drinkKeyword = targetConfig.drink.replace("凍", "").replace("熱", "").substring(0, 2);
+            const foodKeyword = targetConfig.food.substring(0, 2);
+            
+            let hasDrink = cleanText.includes(drinkKeyword) || cleanText.includes("茶") || cleanText.includes("冰") || cleanText.includes("啡");
+            let hasFood = cleanText.includes(foodKeyword) || cleanText.includes("麵") || cleanText.includes("河") || cleanText.includes("飯") || cleanText.includes("包");
+
+            if (currentLevel >= 2) {
+                const food2Keyword = targetConfig.food2.substring(0, 2);
+                hasFood = hasFood && (cleanText.includes(food2Keyword) || cleanText.includes("包") || cleanText.includes("Tart") || cleanText.includes("撻") || cleanText.includes("多士") || cleanText.includes("通粉"));
+            }
+            if (currentLevel === 3) {
+                const food3Keyword = targetConfig.food3.substring(0, 2);
+                hasFood = hasFood && (cleanText.includes(food3Keyword) || cleanText.includes("條") || cleanText.includes("翼") || cleanText.includes("麵"));
+            }
+
+            if (hasDrink && hasFood) {
+                msgZone.style.color = "var(--neon-green)";
+                msgZone.innerHTML = `🎉 傳送大成功！識別聲波：「${text}」<br>【因果物態轉換、多重記憶認知鏈】特訓滿分！`;
+                document.getElementById('main-instruction').textContent = "🏆 特訓大成功！時空通道已開啟！";
+                document.getElementById('shout-btn').style.display = "none";
+                document.getElementById('next-order-btn').style.display = "block";
+                
+                playVoiceGuide("大成功！好精神呀！請點擊最下面下一單按鈕繼續。");
+            } else {
+                msgZone.style.color = "var(--cyber-red)";
+                const targetPhrase = document.getElementById('shout-btn').getAttribute('data-target-phrase');
+                msgZone.innerHTML = `聲波偏移：「${text}」<br>⚠️ 請再次對準，大聲清晰讀出「${targetPhrase}」！`;
+                playVoiceGuide(`聽到的係${cleanText}，好似唔係幾啱，請對準大聲讀出：${targetPhrase}。`);
+            }
+        }
+
+        // 初始化安全監聽綁定
+        document.addEventListener('DOMContentLoaded', () => {
+            buildGridUI();       
+            generateNewOrder();  
+            startLiveHeaderUpdates(); // 3. 啟動即時電子時鐘與實用天氣數據更新
+        });
+    </script>
+</body>
+</html>
